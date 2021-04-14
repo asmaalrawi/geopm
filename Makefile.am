@@ -476,6 +476,8 @@ libgeopmpolicy_la_SOURCES = contrib/json11/json11.cpp \
                             src/Controller.cpp \
                             src/Controller.hpp \
                             src/CpuinfoIOGroup.cpp \
+                            src/CPUBalanceAgent.cpp \
+                            src/CPUBalanceAgent.hpp \
                             src/CpuinfoIOGroup.hpp \
                             src/CSV.cpp \
                             src/CSV.hpp \
@@ -609,6 +611,8 @@ libgeopmpolicy_la_SOURCES = contrib/json11/json11.cpp \
                             src/TreeComm.hpp \
                             src/TreeCommLevel.cpp \
                             src/TreeCommLevel.hpp \
+                            src/TwoDMatrix.cpp \
+                            src/TwoDMatrix.hpp \
                             src/ValidateRecord.cpp \
                             src/ValidateRecord.hpp \
                             src/geopm.h \
