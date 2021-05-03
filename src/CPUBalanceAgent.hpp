@@ -56,10 +56,10 @@ namespace geopm
             void init(int level, const std::vector<int> &fan_in, bool is_level_root) override;
             void validate_policy(std::vector<double> &policy) const override;
             void split_policy(const std::vector<double> &in_policy,
-                              std::vector<std::vector<double> > &out_policy) override;
+                    std::vector<std::vector<double> > &out_policy) override;
             bool do_send_policy(void) const override;
             void aggregate_sample(const std::vector<std::vector<double> > &in_sample,
-                                  std::vector<double> &out_sample) override;
+                    std::vector<double> &out_sample) override;
             bool do_send_sample(void) const override;
             void adjust_platform(const std::vector<double> &in_policy) override;
             bool do_write_batch(void) const override;
@@ -76,7 +76,7 @@ namespace geopm
                 const override;
             void trace_values(std::vector<double> &values) override;
             void enforce_policy(const std::vector<double> &policy) const override;
-            
+
             static std::string plugin_name(void);
             static std::unique_ptr<Agent> make_plugin(void);
             static std::vector<std::string> policy_names(void);
@@ -85,11 +85,12 @@ namespace geopm
         private:
             void init_platform_io(void);
             static bool is_all_nan(const std::vector<double> &vec);
-            
+
             // Policy - send down from top
             //If you change this, update policy_names
             enum m_policy_e {
                 M_POLICY_REBALANCE_ON,
+                M_POLICY_USE_SST,
                 M_POLICY_FREQUENCY_MAX,
                 M_POLICY_FREQUENCY_MIN,
                 M_POLICY_HISTORY_WEIGHT,
@@ -97,7 +98,7 @@ namespace geopm
                 M_POLICY_CTRL_RATE_SEC,
                 M_NUM_POLICY
             };
-            
+
             enum m_signal_e{
                 //M_SIGNAL_PKG_POWER,
                 M_SIGNAL_APERF,
@@ -108,7 +109,7 @@ namespace geopm
             };
 
             enum m_ctrl_e{
-                M_CONTROL_FREQ,
+                M_CONTROL_SETTING,
                 M_NUM_CONTROL
             };
 
@@ -131,6 +132,7 @@ namespace geopm
             std::vector<std::vector<double> > m_sample_new;
             std::vector<std::vector<double> > m_sample_hist;
             std::vector<double> m_freq;
+            std::vector<double> m_clos;
             geopm_time_s m_last_wait;
             geopm_time_s m_last_balance;
             bool m_do_send_policy;
@@ -144,9 +146,9 @@ namespace geopm
             //Get region hash
             bool in_region();
 
-            
-            void set_all_cpu_freq(double freq_max);
-           
+
+            void set_all_cpu_settings(double freq_max, double use_sst);
+
             bool update_freq_range(const std::vector<double> &in_policy);
 
             //TODO: Add to TwoDMatrix the following:
@@ -154,10 +156,11 @@ namespace geopm
             //      Has saved state of freqprog vectors/matrices
             //      Outputs vector of desired frequencies 
             double progress_estimate();
-            void distribute_freq_from_regression(double freq_min, double freq_max);
+            void distribute_freq_from_regression(double freq_min, double freq_max, double use_sst);
+            void distribute_clos();
             bool skip_adjustment(int core_idx);
             void update_fit(double hist_weight);
-           
+
             //These will go away
             void distribute_freq_linearly_ttc(double freq_min, double freq_max);
             void distribute_freq_linearly_prog(double freq_min, double freq_max);
