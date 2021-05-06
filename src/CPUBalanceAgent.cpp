@@ -69,6 +69,7 @@ namespace geopm
           , m_num_core(m_platform_topo.num_domain(GEOPM_DOMAIN_CORE))
           , m_num_pkg(m_platform_topo.num_domain(GEOPM_DOMAIN_PACKAGE))
           , m_num_iter(0)
+          , m_initialized_freq(false)
           , m_signal_idx(m_num_core, std::vector<int>(M_NUM_SIGNAL))  
           , m_control_idx(m_num_core, std::vector<int>(M_NUM_CONTROL))  
           , m_sample_new(m_num_core, std::vector<double>(M_NUM_SIGNAL))
@@ -76,14 +77,13 @@ namespace geopm
           , m_freq(m_num_core, 0)
           , m_clos(m_num_core, 0)
           , m_last_wait{{0,0}}
-    , m_last_balance{{0,0}}
-    , m_do_send_policy(true)
-        , m_do_write_batch(false)
-        , m_initialized_freq(false)
-        , m_freq_prog(m_num_core)
-        , m_scale_factor(1E9)
-        , m_core_freq_min(NAN)
-        , m_core_freq_max(NAN)
+          , m_last_balance{{0,0}}
+          , m_do_send_policy(true)
+          , m_do_write_batch(false)
+          , m_freq_prog(m_num_core)
+          , m_scale_factor(1E9)
+          , m_core_freq_min(NAN)
+          , m_core_freq_max(NAN)
         {
             geopm_time(&m_last_wait);
             geopm_time(&m_last_balance);

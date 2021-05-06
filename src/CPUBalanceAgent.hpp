@@ -124,8 +124,7 @@ namespace geopm
             int m_num_core;
             int m_num_pkg;
             int m_num_iter;
-            double m_core_freq_min;
-            double m_core_freq_max;
+            bool m_initialized_freq;
 
             std::vector<std::vector<int> > m_signal_idx;
             std::vector<std::vector<int> > m_control_idx;
@@ -137,11 +136,10 @@ namespace geopm
             geopm_time_s m_last_balance;
             bool m_do_send_policy;
             bool m_do_write_batch;
-            bool m_initialized_freq;
-            std::vector<double> m_policy;
             std::vector<TwoDMatrix> m_freq_prog;
             double m_scale_factor;
-
+            double m_core_freq_min;
+            double m_core_freq_max;
 
             //Get region hash
             bool in_region();
